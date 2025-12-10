@@ -8,6 +8,8 @@ require('./config/db')
 
 // create server using express
 const bookstoreServer = express()
+
+// enable cors in express server
 bookstoreServer.use(cors())
 // add json parser to server
 bookstoreServer.use(express.json())

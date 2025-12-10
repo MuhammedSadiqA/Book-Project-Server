@@ -1,4 +1,6 @@
 const users=require('../models/userModel')
+const jwt=require('jsonwebtoken')
+
 
 exports.registerController= async (req,res)=>{
     console.log("Inside registerController");
@@ -20,6 +22,59 @@ exports.registerController= async (req,res)=>{
         console.log(error);
         res.status(500).json(error)        
     }
-    
     // res.status(200).json("Request Received")
 }  
+
+// login api
+exports.logincontroller=async(req,res)=>{
+    console.log("Inside loginController");
+    const {email,password}=req.body 
+    console.log(email,password);
+    try{
+        // check mail in model 
+        const existingUser= await users.findOne ({email})
+        if(existingUser){
+            if(password==existingUser.password){
+                const token =jwt.sign({userMail:existingUser,role:existingUser.role},process.env.JWTSECRET)
+                res.status(200).json({user:existingUser,token})
+            }else{
+                res.status(401).json("Incorrect Email / Password")
+            }
+        }else{
+            res.status(404).json("Account Doesnot Exists!!!")
+        }
+    }catch(error){
+        console.log(error);
+        res.status(500).json(error)
+    }
+
+}
+
+// google login
+exports.googleLogincontroller=async(req,res)=>{
+    console.log("Inside loginController");
+    const {email,password,username,picture}=req.body 
+    console.log(email,password,username,picture);
+    try{
+        // check mail in model 
+        const existingUser= await users.findOne ({email})
+            if(existingUser){
+                // login
+                // generate token
+                const token =jwt.sign({userMail:existingUser,email,role:existingUser.role},process.env.JWTSECRET)
+                res.status(200).json({user:existingUser,token})
+            }else{
+                // register
+                const newUser=await users.create({
+                    username,email,password,picture
+                })
+                const token=jwt.sign({userMail:newUser.email,role:newUser.role},process.env.JWTSECRET)
+                res.status(200).json({user:newToken,user})
+            }
+        
+    }catch(error){
+        console.log(error);
+        res.status(500).json(error)
+    }
+
+}
