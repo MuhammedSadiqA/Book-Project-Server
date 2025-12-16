@@ -35,7 +35,7 @@ exports.logincontroller=async(req,res)=>{
         const existingUser= await users.findOne ({email})
         if(existingUser){
             if(password==existingUser.password){
-                const token =jwt.sign({userMail:existingUser,role:existingUser.role},process.env.JWTSECRET)
+                const token =jwt.sign({userMail:existingUser.email,role:existingUser.role},process.env.JWTSECRET)
                 res.status(200).json({user:existingUser,token})
             }else{
                 res.status(401).json("Incorrect Email / Password")
@@ -61,7 +61,7 @@ exports.googleLogincontroller=async(req,res)=>{
             if(existingUser){
                 // login
                 // generate token
-                const token =jwt.sign({userMail:existingUser,email,role:existingUser.role},process.env.JWTSECRET)
+                const token =jwt.sign({userMail:existingUser.email,role:existingUser.role},process.env.JWTSECRET)
                 res.status(200).json({user:existingUser,token})
             }else{
                 // register
@@ -69,7 +69,7 @@ exports.googleLogincontroller=async(req,res)=>{
                     username,email,password,picture
                 })
                 const token=jwt.sign({userMail:newUser.email,role:newUser.role},process.env.JWTSECRET)
-                res.status(200).json({user:newToken,user})
+                res.status(200).json({user:newUser,token})
             }
         
     }catch(error){

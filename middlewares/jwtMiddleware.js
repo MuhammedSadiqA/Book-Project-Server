@@ -1,4 +1,4 @@
-
+const jsonwebtoken=require('jsonwebtoken')
 
 
 const jwtMiddleware=(req,res,next)=>{
@@ -10,7 +10,7 @@ const jwtMiddleware=(req,res,next)=>{
     // verify token 
     if(token){
         try{
-            const jwtResponse=jwtMiddleware.verify(token,process.env.JWTSECRET)
+            const jwtResponse=jsonwebtoken.verify(token,process.env.JWTSECRET)
             console.log(jwtResponse);
             req.payload=jwtResponse.userMail
             next()

@@ -1,6 +1,7 @@
 // import express,dotenv,cors
 // Loads .env file contents into process.env by default
 require('dotenv').config()
+// /config It loads all the variables from your .env file into process.env so your app can access them.
 const express = require('express')
 const cors = require('cors')
 const router=require('./routes/routing')
