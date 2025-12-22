@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
         default:"Bookstore User"
     },
     role:{
-        type:"string",
+        type:String,
         default:"user"
     }
 
