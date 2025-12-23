@@ -15,7 +15,7 @@ router.post('/login',userController.logincontroller)
 // googlelogin
 router.post('/google/sign-in',userController.googleLogincontroller)
 //get home books
-router.post('/books/home',bookController.getHomePageBooksController )
+router.get('/books/home',bookController.getHomePageBooksController )
 
 
 // ------------------Authorised User-------------------
